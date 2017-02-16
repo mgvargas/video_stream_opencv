@@ -57,7 +57,7 @@ sensor_msgs::CameraInfo get_default_camera_info_from_image(sensor_msgs::ImagePtr
     cam_info_msg.distortion_model = "plumb_bob";
     // Don't let distorsion matrix be empty
     cam_info_msg.D.resize(5, 0.0);
-    // Give a reasonable default intrinsic camera matrix
+    // Give a reasonable default intrinsic camera matrixget
     cam_info_msg.K = boost::assign::list_of(1.0) (0.0) (img->width/2.0)
                                            (0.0) (1.0) (img->height/2.0)
                                            (0.0) (0.0) (1.0);
@@ -186,6 +186,9 @@ int main(int argc, char** argv)
                     cam_info_msg = get_default_camera_info_from_image(msg);
                     cam_info_manager.setCameraInfo(cam_info_msg);
                 }
+					 else {
+							cam_info_msg.header.frame_id = frame_id;
+						  }
                 // The timestamps are in sync thanks to this publisher
                 pub.publish(*msg, cam_info_msg, ros::Time::now());
             }
